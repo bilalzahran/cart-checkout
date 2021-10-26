@@ -5,3 +5,4 @@ SQLAlchemy
 starlette
 databases
 python-dotenv
+dependency_injector
