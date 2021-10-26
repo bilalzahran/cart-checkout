@@ -1,0 +1,7 @@
+fastapi
+asyncpg
+uvicorn[standard]
+SQLAlchemy
+starlette
+databases
+python-dotenv
