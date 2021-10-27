@@ -1,7 +1,6 @@
-from sqlalchemy import MetaData
 from sqlalchemy.sql.expression import false, null
 from sqlalchemy.sql.functions import func
-from sqlalchemy.sql.schema import Column, Table
+from sqlalchemy.sql.schema import Column, MetaData, Table
 from sqlalchemy.sql.sqltypes import DateTime, Numeric, String
 
 

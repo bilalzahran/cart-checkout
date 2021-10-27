@@ -1,6 +1,6 @@
-from sqlalchemy import MetaData, Table, Column
-from sqlalchemy.sql.expression import false
+from sqlalchemy import Table, Column
 from sqlalchemy.sql.functions import func
+from sqlalchemy.sql.schema import MetaData
 from sqlalchemy.sql.sqltypes import DateTime, String, Numeric
 
 
@@ -29,7 +29,7 @@ class Users:
         self.phone = self.__table.c.phone
         self.address = self.__table.c.phone
         self.created_at = self.__table.c.created_at
-        self.updated_at = self.__table.c.update_at
+        self.updated_at = self.__table.c.updated_at
 
     def __call__(self):
         return self.__table

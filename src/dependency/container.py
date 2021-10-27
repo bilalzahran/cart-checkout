@@ -6,13 +6,16 @@ from src.datasource.postgresql.model.product import Product
 from src.datasource.postgresql.model.orders import Order
 from src.datasource.postgresql.model.detail_order import OrderDetail
 
+from src.repository.product import ProductRepository
+
 from dependency_injector import containers, providers
 
 from src.dependency.config import DB_URI
+from src.utils.log_helper import LogHelper
 
 
 class Container(containers.DeclarativeContainer):
-    config = providers.Configuration()
+    log_helper = providers.Singleton(LogHelper)
 
     database = providers.Singleton(Database, DB_URI)
 
@@ -28,4 +31,8 @@ class Container(containers.DeclarativeContainer):
         product=product,
         order=order,
         order_detail=order_detail,
+    )
+
+    product_repo: ProductRepository = providers.Singleton(
+        ProductRepository, db_manager=db_manager
     )

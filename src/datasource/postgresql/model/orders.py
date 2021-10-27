@@ -1,13 +1,12 @@
-from sqlalchemy import Metadata
 from sqlalchemy.sql.functions import func
-from sqlalchemy.sql.schema import Column, ForeignKey, Table
+from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
 from sqlalchemy.sql.sqltypes import DateTime, Numeric, String
 
 
 class Order:
     def __init__(self):
 
-        metadata = Metadata()
+        metadata = MetaData()
 
         self.__table = Table(
             "orders",

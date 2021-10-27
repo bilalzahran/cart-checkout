@@ -26,4 +26,4 @@ DB_URI = URL(
     host=config.db_host,
     port=config.db_port,
     database=config.db_name,
-).__to_string__
+).__to_string__(True)

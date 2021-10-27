@@ -1,5 +1,4 @@
-from sqlalchemy import MetaData
-from sqlalchemy.sql.schema import Column, ForeignKey, Table
+from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
 from sqlalchemy.sql.sqltypes import Numeric
 
 
