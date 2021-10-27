@@ -1,7 +1,7 @@
 from sqlalchemy.sql.expression import false, null
 from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.schema import Column, MetaData, Table
-from sqlalchemy.sql.sqltypes import DateTime, Numeric, String
+from sqlalchemy.sql.sqltypes import DateTime, Integer, Numeric, String
 
 
 class Product:
@@ -11,12 +11,12 @@ class Product:
         self.__table = Table(
             "products",
             metadata,
-            Column("id", Numeric(), primary_key=True),
+            Column("id", Integer(), primary_key=True, autoincrement=True),
             Column("name", String(), nullable=False),
             Column("description", String(), nullable=True),
-            Column("stock", Numeric(), default=0, nullable=False),
-            Column("price", Numeric(), nullable=False),
-            Column("version", Numeric(), nullable=False),
+            Column("stock", Integer(), default=0, nullable=False),
+            Column("price", Integer(), nullable=False),
+            Column("version", Integer(), nullable=False),
             Column("created_at", DateTime(timezone=False), default=func.now()),
             Column("updated_at", DateTime(timezone=False)),
         )

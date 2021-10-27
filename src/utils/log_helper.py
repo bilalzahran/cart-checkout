@@ -42,7 +42,7 @@ class LogHelper:
             self.__log_error(msg)
 
     def __log_error(self, exc):
-        exc_type, exc_obj, exc_tb = sys.exec_info()
+        exc_type, exc_obj, exc_tb = sys.exc_info()
         list_of_details = []
         for err in traceback.extract_tb(exc_tb):
             if ".venv" not in err[0]:
