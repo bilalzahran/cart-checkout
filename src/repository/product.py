@@ -1,4 +1,3 @@
-from pydantic import errors
 from src.datasource.postgresql.db_manager import DbManager
 from src.model.product import ProductOut, ProductIn
 from typing import List
@@ -18,9 +17,9 @@ class ProductRepository:
         except Exception as ex:
             LogHelper.log_error(ex)
 
-    async def insert(self, paylaod: ProductIn):
+    async def insert(self, payload: ProductIn):
         try:
-            query = self.product().insert().values(**paylaod.dict(exclude=False))
+            query = self.product().insert().values(**payload.dict(exclude=False))
             id = await self.db.execute(query=query)
             return id
         except Exception as ex:
