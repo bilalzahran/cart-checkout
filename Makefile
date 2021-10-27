@@ -8,3 +8,6 @@ install-dep:
 	pip install --upgrade pip
 	pip install --upgrade -r requirements/dep.txt
 	pip freeze > requirements.txt
+
+start-local:
+	uvicorn main:app --reload --host 127.0.0.1 --port 8080

@@ -3,13 +3,8 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-class DetailOrder(BaseModel):
-    product_id: int
-    quantity: int
-    sub_total: int
-
-
 class OrderOut(BaseModel):
+    id: int
     order_sn: str
     user_id: int
     total_amount: int
@@ -24,18 +19,19 @@ class OrderOut(BaseModel):
     updated_at: Optional[datetime]
 
 
-class OrderRequestSchema(BaseModel):
-    user_id: int
-    order_detail: List[DetailOrder]
-    status: str = "IN_CART"
-    created_at: datetime = datetime.now()
-
-
 class OrderIn(BaseModel):
     user_id: int
     status: str
     created_at: datetime
 
 
-class OrderWithDetail(OrderOut):
-    detail_order: DetailOrder
+class DetailOrderRequestSchema(BaseModel):
+    product_id: int
+    quantity: int
+
+
+class OrderRequestSchema(BaseModel):
+    user_id: int
+    order_detail: List[DetailOrderRequestSchema]
+    status: str = "IN_CART"
+    created_at: datetime = datetime.now()

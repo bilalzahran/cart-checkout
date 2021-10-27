@@ -17,6 +17,18 @@ class ProductRepository:
         except Exception as ex:
             LogHelper.log_error(ex)
 
+    async def get_one(self, product_id) -> ProductOut:
+        try:
+            query = self.product().select().where(self.product.id == product_id)
+            row = self.db.fetch_one(query=query)
+            if not row:
+                return None
+            return ProductOut(**row)
+
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False
+
     async def insert(self, payload: ProductIn):
         try:
             query = self.product().insert().values(**payload.dict(exclude=False))
