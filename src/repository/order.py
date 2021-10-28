@@ -26,7 +26,15 @@ class OrderRepository:
                 .where(self.order.status == status)
                 .where(self.order.user_id == user_id)
             )
-            print(query.description)
+            row = await self.db.fetch_one(query=query)
+            return Order(**row)
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False
+
+    async def get_order_by_id(self, order_id) -> Order:
+        try:
+            query = self.order().select().where(self.order.id == order_id)
             row = await self.db.fetch_one(query=query)
             return Order(**row)
         except Exception as ex:

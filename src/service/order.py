@@ -12,12 +12,14 @@ from src.model.order import (
     Order,
     OrderIn,
     OrderDetail,
-    DetailOrderRequestSchema,
+    OrderPaymentRequestSchema,
 )
 from src.model.product import ProductOut, ProductIn
 
-order_in_cart_status = "IN_CART"
-order_waiting_payment_status = "WAITING_PAYMENT"
+ORDER_IN_CART_STATUS = "IN_CART"
+ORDER_WAITING_PAYMENT_STATUS = "WAITING_PAYMENT"
+ORDER_IN_PROCESS_STATUS = "IN_PROCESS"
+CANCEL_PAYMENT_STATUS = "CANCEL"
 
 
 @inject
@@ -32,7 +34,7 @@ async def add_to_cart(
     # Check if order with status "IN_CART" exist
     # The status indicate order that has not been checked out by user / still in cart
     order: Order = await order_repo.get_by_status_and_user_id(
-        status=order_in_cart_status, user_id=payload.user_id
+        status=ORDER_IN_CART_STATUS, user_id=payload.user_id
     )
 
     # Check the availability of the product
@@ -99,7 +101,7 @@ async def checkout(
 ):
     # Get order by user id and with status "IN_CART"
     order: Order = await order_repo.get_by_status_and_user_id(
-        status=order_in_cart_status, user_id=payload.user_id
+        status=ORDER_IN_CART_STATUS, user_id=payload.user_id
     )
     if not order:
         return {"message": "No order in cart for this specified user"}
@@ -139,9 +141,59 @@ async def checkout(
         return {"message": "Something went wrong!"}
 
     order.total_amount = total_amount
-    order.status = order_waiting_payment_status
+    order.status = ORDER_WAITING_PAYMENT_STATUS
+    order.order_sn = "ORDER" + datetime.timestamp
     order_update_status = await order_repo.update(payload=order)
+
     if not order_update_status:
         return {"message": "Something went wrong!"}
+
+    return True
+
+
+@inject
+async def update_payment_status(
+    payload: OrderPaymentRequestSchema,
+    order_repo: OrderRepository = Depends(Provide[Container.order_repo]),
+    order_detail_repo: OrderDetailRepository = Depends(
+        Provide[Container.order_detail_repo]
+    ),
+    product_repo: ProductRepository = Depends(Provide[Container.product_repo]),
+):
+    order: Order = await order_repo.get_order_by_id(payload.order_id)
+    if not order:
+        return {"message": "Order not found!"}
+
+    if payload.payment_status == CANCEL_PAYMENT_STATUS:
+        detail_order = await order_detail_repo.get_by_order_id(payload.order_id)
+
+        product_update_arr_id = []
+        detail_order_quantity = dict()
+
+        for item in detail_order:
+            detail_order_quantity[item.product_id] = item.quantity
+            product_update_arr_id.append(item.product_id)
+
+        product_arr = await product_repo.get_product_by_id(product_update_arr_id)
+
+        updated_product = []
+        for product in product_arr:
+            product.stock = product.stock + detail_order_quantity[product.id]
+            product.version = product.version + 1
+            updated_product.append(product)
+
+        status = await product_repo.bulk_update(updated_product)
+        if not status:
+            return {"message": "Something went wrong!"}
+
+        order.status = CANCEL_PAYMENT_STATUS
+        order.payment_status = CANCEL_PAYMENT_STATUS
+    else:
+        order.status = ORDER_IN_PROCESS_STATUS
+        order.payment_status = payload.payment_status
+
+    status = await order_repo.update(order)
+    if not status:
+        return {"message": "Something When Wrong!"}
 
     return True

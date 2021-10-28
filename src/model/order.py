@@ -19,6 +19,11 @@ class OrderCheckoutRequestSchema(BaseModel):
     user_id: int
 
 
+class OrderPaymentRequestSchema(BaseModel):
+    order_id: int
+    payment_status: str
+
+
 class Order(BaseModel):
     id: int
     order_sn: Optional[str]
