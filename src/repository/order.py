@@ -41,3 +41,18 @@ class OrderRepository:
         except Exception as e:
             LogHelper.log_error(e)
             return False
+
+    async def update(self, payload: Order):
+        print(payload)
+        try:
+            query = (
+                self.order()
+                .update()
+                .where(self.order.id == payload.id)
+                .values(payload.dict(exclude=False))
+            )
+            await self.db.execute(query=query)
+            return True
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False

@@ -15,6 +15,10 @@ class OrderRequestSchema(BaseModel):
     order_detail: List[DetailOrderRequestSchema]
 
 
+class OrderCheckoutRequestSchema(BaseModel):
+    user_id: int
+
+
 class Order(BaseModel):
     id: int
     order_sn: Optional[str]

@@ -1,3 +1,4 @@
+from typing import List
 from src.datasource.postgresql.db_manager import DbManager
 from src.model.order import OrderDetail
 from src.utils.log_helper import LogHelper
@@ -47,3 +48,18 @@ class OrderDetailRepository:
         except Exception as ex:
             LogHelper.log_error(ex)
             return False
+
+    async def get_by_order_id(self, order_id: int) -> List[OrderDetail]:
+        try:
+            query = (
+                self.order_detail()
+                .select()
+                .where(self.order_detail.order_id == order_id)
+            )
+            rows = await self.db.fetch_all(query=query)
+            return (OrderDetail(**row) for row in rows)
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False
+
+   

@@ -29,6 +29,16 @@ class ProductRepository:
             LogHelper.log_error(ex)
             return False
 
+    async def get_product_by_id(self, product_id_list) -> List[ProductOut]:
+        try:
+            query = self.product().select().where(self.product.id.in_(product_id_list))
+            rows = await self.db.fetch_all(query=query)
+            return (ProductOut(**row) for row in rows)
+
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False
+
     async def insert(self, payload: ProductIn):
         try:
             query = self.product().insert().values(**payload.dict(exclude=False))
@@ -47,6 +57,22 @@ class ProductRepository:
                 .values(payload)
             )
             await self.db.execute(query=query)
+            return True
+        except Exception as ex:
+            LogHelper.log_error(ex)
+            return False
+
+    async def bulk_update(self, payload: List[ProductOut]):
+        try:
+            for item in payload:
+                query = (
+                    self.product()
+                    .update()
+                    .where(self.product.id == item.id)
+                    .where(self.product.version == item.version - 1)
+                    .values(item.dict(exclude=False))
+                )
+                await self.db.execute(query=query)
             return True
         except Exception as ex:
             LogHelper.log_error(ex)
