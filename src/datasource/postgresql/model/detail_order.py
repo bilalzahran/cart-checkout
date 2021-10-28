@@ -1,5 +1,5 @@
 from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
-from sqlalchemy.sql.sqltypes import Numeric
+from sqlalchemy.sql.sqltypes import Integer
 
 
 class OrderDetail:
@@ -9,11 +9,11 @@ class OrderDetail:
         self.__table = Table(
             "detail_order",
             metadata,
-            Column("id", Numeric(), primary_key=True),
-            Column("order_id", Numeric(), ForeignKey("orders.id"), nullable=False),
-            Column("product_id", Numeric(), nullable=False),
-            Column("quantity", Numeric(), nullable=False),
-            Column("sub_total", Numeric(), nullable=False),
+            Column("id", Integer(), primary_key=True, autoincrement=True),
+            Column("order_id", Integer(), ForeignKey("orders.id"), nullable=False),
+            Column("product_id", Integer(), nullable=False),
+            Column("quantity", Integer(), nullable=False),
+            Column("sub_total", Integer(), nullable=False),
         )
 
         self.id = self.__table.c.id

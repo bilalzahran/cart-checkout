@@ -8,6 +8,7 @@ from src.datasource.postgresql.model.detail_order import OrderDetail
 
 from src.repository.product import ProductRepository
 from src.repository.order import OrderRepository
+from src.repository.order_detail import OrderDetailRepository
 
 from dependency_injector import containers, providers
 
@@ -40,4 +41,8 @@ class Container(containers.DeclarativeContainer):
 
     order_repo: OrderRepository = providers.Singleton(
         OrderRepository, db_manager=db_manager
+    )
+
+    order_detail_repo: OrderRepository = providers.Singleton(
+        OrderDetailRepository, db_manager=db_manager
     )

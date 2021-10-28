@@ -1,13 +1,25 @@
-from typing import List, Optional
+from typing import Any, List, Optional, Union
 from pydantic import BaseModel
 from datetime import datetime
 
+from sqlalchemy.sql.expression import null
 
-class OrderOut(BaseModel):
-    id: int
-    order_sn: str
+
+class DetailOrderRequestSchema(BaseModel):
+    product_id: int
+    quantity: int
+
+
+class OrderRequestSchema(BaseModel):
     user_id: int
-    total_amount: int
+    order_detail: List[DetailOrderRequestSchema]
+
+
+class Order(BaseModel):
+    id: int
+    order_sn: Optional[str]
+    user_id: int
+    total_amount: Optional[int]
     status: Optional[str]
     payment_status: Optional[str]
     payment_method: Optional[str]
@@ -21,17 +33,11 @@ class OrderOut(BaseModel):
 
 class OrderIn(BaseModel):
     user_id: int
-    status: str
-    created_at: datetime
-
-
-class DetailOrderRequestSchema(BaseModel):
-    product_id: int
-    quantity: int
-
-
-class OrderRequestSchema(BaseModel):
-    user_id: int
-    order_detail: List[DetailOrderRequestSchema]
     status: str = "IN_CART"
+    total_amount: Optional[int]
     created_at: datetime = datetime.now()
+
+
+class OrderDetail(DetailOrderRequestSchema):
+    sub_total: int
+    order_id: Union[int, None]

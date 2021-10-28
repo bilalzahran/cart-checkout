@@ -1,6 +1,6 @@
 from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
-from sqlalchemy.sql.sqltypes import DateTime, Numeric, String
+from sqlalchemy.sql.sqltypes import DateTime, Integer, String
 
 
 class Order:
@@ -11,13 +11,13 @@ class Order:
         self.__table = Table(
             "orders",
             metadata,
-            Column("id", Numeric(), primary_key=True),
-            Column("order_sn", String(), nullable=False),
-            Column("user_id", Numeric(), ForeignKey("users.id"), nullable=False),
-            Column("total_amount", Numeric(), nullable=False),
+            Column("id", Integer(), primary_key=True, autoincrement=True),
+            Column("order_sn", String(), nullable=True),
+            Column("user_id", Integer(), ForeignKey("users.id"), nullable=False),
+            Column("total_amount", Integer(), nullable=True),
             Column("status", String(), nullable=False),
-            Column("payment_status", String(), nullable=False),
-            Column("payment_method", String(), nullable=False),
+            Column("payment_status", String(), nullable=True),
+            Column("payment_method", String(), nullable=True),
             Column("cancel_by", String(), nullable=True),
             Column("cancel_reason", String(), nullable=True),
             Column("payment_at", DateTime(timezone=False), nullable=True),

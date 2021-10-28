@@ -20,7 +20,7 @@ class ProductRepository:
     async def get_one(self, product_id) -> ProductOut:
         try:
             query = self.product().select().where(self.product.id == product_id)
-            row = self.db.fetch_one(query=query)
+            row = await self.db.fetch_one(query=query)
             if not row:
                 return None
             return ProductOut(**row)

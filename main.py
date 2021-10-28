@@ -5,7 +5,7 @@ from src.dependency.dependency import container
 from src.handler.api_handler.v1 import api_router
 from src.utils.log_helper import LogHelper
 
-app = FastAPI(docs_url="/v1/docs")
+app = FastAPI(docs_url="/docs")
 
 
 @app.on_event("startup")
