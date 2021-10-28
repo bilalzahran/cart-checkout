@@ -22,3 +22,7 @@ Solusi yang dapat dilakukan untuk menanggulangi proses tersebut sebagai berikut:
 - Membuat endpoint API untuk proses pengecekan jumlah stok barang, atau bisa juga pada endpoint checkout / pembayaran dilakukan proses pengecekan stok barang terlebih dahulu sebelum memproses checkout / pembayaran.  
 
 - Membuat field "version" pada table stok produk. Ketika akan mengupdate jumlah stok produk, field version harus di update juga untuk menghindari proses "conflict" jika terdapat lebih dari satu proses transaksi update pada database.
+
+## Docs
+### ERD
+![alt text](https://drive.google.com/uc?export=view&id=1fRJIZ2O1h4hey_1X_9NzKeOoaI23sskx)
