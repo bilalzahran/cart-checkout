@@ -55,3 +55,5 @@ This project requires [Python] (https://www.python.org/) 3.8+ to run.
   ```sh
   uvicorn main:app --reload --host 127.0.0.1 --port 8080
   ```
+- Open the docs of the api
+  http://localhost:8080/docs/
