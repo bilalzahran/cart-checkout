@@ -26,3 +26,32 @@ Solusi yang dapat dilakukan untuk menanggulangi proses tersebut sebagai berikut:
 ## Docs
 ### ERD
 ![alt text](https://drive.google.com/uc?export=view&id=1fRJIZ2O1h4hey_1X_9NzKeOoaI23sskx)
+
+
+## Installation
+This project requires [Python] (https://www.python.org/) 3.8+ to run.
+
+- Install pip
+- Install and create virtualenv
+  ```sh
+  pip install virtualenv
+  virtualenv venv
+  ```
+- Install the project dependecies
+  ```sh
+  pip install -r requirements.txt
+  ```
+- Activate the virtualenv
+  Linux:
+  ```sh
+    source venv/bin/activate
+  ```
+  Windows:
+  ```sh
+    .\venv\Scripts\activate
+  ```
+- Copy the .env.example file
+- Start the ASGI Server using uvicorn
+  ```sh
+  uvicorn main:app --reload --host 127.0.0.1 --port 8080
+  ```

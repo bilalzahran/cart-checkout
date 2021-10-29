@@ -12,7 +12,6 @@ class __Config(BaseSettings):
     db_host = os.getenv("DB_HOST")
     db_port = os.getenv("DB_PORT")
     db_driver = os.getenv("DB_DRIVER")
-    ssl_mode = os.getenv("SSL_MODE")
 
     class Config:
         case_sensitive = False
@@ -27,5 +26,4 @@ DB_URI = URL(
     host=config.db_host,
     port=config.db_port,
     database=config.db_name,
-    query={"sslmode": config.ssl_mode},
 ).__to_string__(True)
