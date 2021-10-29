@@ -7,3 +7,4 @@ databases
 python-dotenv
 dependency_injector
 jsonformatter
+gunicorn

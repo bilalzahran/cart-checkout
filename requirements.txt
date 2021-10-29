@@ -8,6 +8,7 @@ databases==0.5.3
 dependency-injector==4.36.2
 fastapi==0.70.0
 greenlet==1.1.2
+gunicorn==20.1.0
 h11==0.12.0
 httptools==0.2.0
 idna==3.3

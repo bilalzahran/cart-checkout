@@ -26,7 +26,7 @@ CREATE TABLE orders (
     id serial primary key, 
     order_sn varchar(50),
     user_id int,
-    toal_amount int,
+    total_amount int,
     status varchar(50),    
     payment_status varchar(50), 
     payment_method varchar(50),
