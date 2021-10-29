@@ -8,6 +8,7 @@ class OrderRepository:
     def __init__(self, db_manager: DbManager):
         self.db = db_manager.db
         self.order = db_manager.order
+        self.order_detail = db_manager.order_detail
 
     async def get_all(self):
         try:

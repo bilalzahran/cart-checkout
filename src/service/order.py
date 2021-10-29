@@ -13,6 +13,7 @@ from src.model.order import (
     OrderIn,
     OrderDetail,
     OrderPaymentRequestSchema,
+    OrderWithDetail,
 )
 from src.model.product import ProductOut, ProductIn
 
@@ -70,6 +71,7 @@ async def add_to_cart(
             status = await order_detail_repo.insert(item)
             if not status:
                 return {"message": "Can't add this product"}
+        return {"order_id": order_id}
     else:
         for item in order_detail_arr:
             item.order_id = order.id
@@ -197,3 +199,17 @@ async def update_payment_status(
         return {"message": "Something When Wrong!"}
 
     return True
+
+
+@inject
+async def get_order_by_id(
+    order_id: int,
+    order_repo: OrderRepository = Depends(Provide[Container.order_repo]),
+    order_detail_repo: OrderDetailRepository = Depends(
+        Provide[Container.order_detail_repo]
+    ),
+):
+    order = await order_repo.get_order_by_id(order_id)
+    detail_order = await order_detail_repo.get_by_order_id(order_id)
+    order = OrderWithDetail(**order.dict(), detail=detail_order)
+    return order

@@ -5,10 +5,21 @@ from src.model.order import (
     OrderCheckoutRequestSchema,
     OrderPaymentRequestSchema,
 )
-from src.service.order import add_to_cart, checkout, update_payment_status
+from src.service.order import (
+    add_to_cart,
+    checkout,
+    update_payment_status,
+    get_order_by_id as get_order_id,
+)
 
 order_routes = APIRouter()
 order_tag = "order"
+
+
+@order_routes.get("/")
+async def get_order_by_id(order_id: int):
+    response = await get_order_id(order_id)
+    return response
 
 
 @order_routes.post("/add-item")

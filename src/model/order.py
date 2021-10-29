@@ -50,3 +50,7 @@ class OrderIn(BaseModel):
 class OrderDetail(DetailOrderRequestSchema):
     sub_total: int
     order_id: Union[int, None]
+
+
+class OrderWithDetail(Order):
+    detail: List[OrderDetail]
